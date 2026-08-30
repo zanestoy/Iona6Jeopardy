@@ -1,0 +1,367 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #060ce9;
+  --dark-blue: #02056b;
+  --gold: #ffd700;
+  --white: #fff;
+  --green: #159447;
+  --red: #b62d2d;
+  --gray: #e7e7e7;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #050505;
+  color: var(--white);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button, select, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 24px 12px;
+}
+
+h1 {
+  margin: 0;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 0.08em;
+  text-shadow: 2px 3px 0 #000;
+}
+
+.subtitle {
+  margin: 0;
+  color: #ddd;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.top-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.secondary-btn,
+.primary-btn,
+.correct-btn,
+.incorrect-btn {
+  border: 2px solid rgba(255,255,255,.35);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: #fff;
+  font-weight: 700;
+  background: #222;
+}
+
+.primary-btn {
+  background: var(--blue);
+  border-color: #fff;
+}
+
+.correct-btn {
+  background: var(--green);
+}
+
+.incorrect-btn {
+  background: var(--red);
+}
+
+.secondary-btn:hover,
+.primary-btn:hover,
+.correct-btn:hover,
+.incorrect-btn:hover {
+  filter: brightness(1.2);
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 1400px;
+  margin: 0 auto 12px;
+  padding: 0 12px;
+}
+
+.score-card {
+  background: #111;
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.score-card.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(255,215,0,.45);
+}
+
+.team-name {
+  font-size: clamp(.85rem, 1.6vw, 1.2rem);
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score {
+  margin-top: 3px;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+  width: min(1400px, calc(100% - 24px));
+  margin: 0 auto 24px;
+  background: #000;
+}
+
+.category {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--blue);
+  border: 2px solid #fff;
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: clamp(.8rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cell {
+  min-height: 100px;
+  border: 2px solid #fff;
+  background: var(--blue);
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+}
+
+.cell:hover:not(:disabled) {
+  background: #1017ff;
+}
+
+.cell:disabled,
+.cell.used {
+  background: var(--dark-blue);
+  color: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.18);
+  cursor: default;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0,0,0,.82);
+}
+
+.modal-card {
+  position: relative;
+  width: min(1000px, 95vw);
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 50px 40px;
+  border: 5px solid #fff;
+  border-radius: 12px;
+  background: var(--blue);
+  text-align: center;
+  box-shadow: 0 20px 70px rgba(0,0,0,.8);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.modal-category {
+  color: #ddd;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.modal-value {
+  margin: 5px 0 25px;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+}
+
+.modal-clue {
+  max-width: 850px;
+  font-family: Georgia, serif;
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.modal-answer {
+  max-width: 850px;
+  margin-top: 28px;
+  padding: 20px;
+  border-top: 2px solid rgba(255,255,255,.5);
+  font-family: Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 2.3rem);
+  color: var(--gold);
+}
+
+.modal-actions {
+  margin-top: 35px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.scoring-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.settings-card {
+  min-height: auto;
+  align-items: stretch;
+  text-align: left;
+  gap: 15px;
+}
+
+.settings-card h2 {
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+.settings-card label {
+  display: grid;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.settings-card select,
+.settings-card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+}
+
+.team-input {
+  display: grid;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.final-panel {
+  width: min(1000px, 95vw);
+  margin: 30px auto;
+  padding: 40px;
+  border: 5px solid #fff;
+  border-radius: 12px;
+  background: var(--blue);
+  text-align: center;
+}
+
+.final-header {
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 800;
+}
+
+.final-category {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.final-clue {
+  margin: 30px auto;
+  max-width: 800px;
+  font-family: Georgia, serif;
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-weight: 700;
+}
+
+.final-answer {
+  margin: 25px auto;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 2.3rem);
+}
+
+@media (max-width: 800px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .scoreboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .board {
+    gap: 3px;
+  }
+
+  .category {
+    min-height: 65px;
+  }
+
+  .cell {
+    min-height: 75px;
+  }
+
+  .modal-card {
+    min-height: 65vh;
+    padding: 50px 20px 25px;
+  }
+}
