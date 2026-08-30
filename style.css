@@ -338,7 +338,134 @@ h1 {
   font-size: clamp(1.4rem, 3vw, 2.3rem);
 }
 
+
+.daily-double-banner {
+  margin-bottom: 18px;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-shadow: 2px 3px 0 #000;
+}
+
+.daily-double-setup {
+  width: min(520px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 20px;
+  border: 2px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+  background: rgba(0,0,0,.18);
+  text-align: left;
+}
+
+.daily-double-setup label,
+.scoring-team-label {
+  display: grid;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.daily-double-setup select,
+.daily-double-setup input,
+.scoring-team-label select,
+.final-wager-row input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  background: #fff;
+  color: #111;
+}
+
+.daily-double-setup .primary-btn,
+.daily-double-setup .wager-limit {
+  grid-column: 1 / -1;
+}
+
+.wager-limit {
+  color: #ddd;
+  font-size: .9rem;
+}
+
+.scoring-area {
+  display: grid;
+  gap: 12px;
+  min-width: min(520px, 90vw);
+}
+
+.scoring-team-label {
+  text-align: left;
+}
+
+.final-wager-section {
+  width: min(760px, 100%);
+  margin: 28px auto 0;
+}
+
+.final-instructions {
+  color: #ddd;
+}
+
+.final-wagers,
+.final-scoring {
+  display: grid;
+  gap: 12px;
+  margin: 20px auto;
+}
+
+.final-wager-row,
+.final-score-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(150px, 220px);
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 8px;
+  background: rgba(0,0,0,.16);
+  text-align: left;
+}
+
+.final-score-row {
+  grid-template-columns: minmax(140px, 1fr) auto;
+}
+
+.final-score-team {
+  font-weight: 800;
+}
+
+.final-score-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.final-score-row.resolved {
+  opacity: .72;
+}
+
+.final-wager-note,
+.final-result-note {
+  color: #ddd;
+  font-size: .86rem;
+}
+
 @media (max-width: 800px) {
+  .daily-double-setup,
+  .final-wager-row,
+  .final-score-row {
+    grid-template-columns: 1fr;
+  }
+
+  .final-score-actions {
+    justify-content: center;
+  }
+
   .topbar {
     align-items: flex-start;
     flex-direction: column;

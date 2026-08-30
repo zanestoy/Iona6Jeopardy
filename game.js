@@ -4,15 +4,6 @@
  *
  * Each category needs exactly five questions:
  * 100, 200, 300, 400, 500
- *
- * Example:
- * {
- *   category: "Your Category",
- *   questions: [
- *     { value: 100, clue: "Your clue.", answer: "What is your answer?" },
- *     ...
- *   ]
- * }
  */
 
 const gameData = [
@@ -91,8 +82,12 @@ let teams = [
 
 let usedQuestions = new Set();
 let activeQuestion = null;
-let activeTeam = 0;
+let dailyDoubleKey = null;
+let dailyDoubleTeamIndex = null;
+let dailyDoubleWager = 0;
 let finalStarted = false;
+let finalWagers = [];
+let finalResolved = [];
 
 const $ = id => document.getElementById(id);
 
@@ -104,9 +99,9 @@ function renderScoreboard() {
   const board = $("scoreboard");
   board.innerHTML = "";
 
-  teams.forEach((team, index) => {
+  teams.forEach(team => {
     const card = document.createElement("div");
-    card.className = `score-card ${index === activeTeam ? "active" : ""}`;
+    card.className = "score-card";
     card.innerHTML = `
       <div class="team-name">${escapeHtml(team.name)}</div>
       <div class="score">${formatMoney(team.score)}</div>
@@ -119,7 +114,7 @@ function renderBoard() {
   const board = $("board");
   board.innerHTML = "";
 
-  gameData.forEach((category, categoryIndex) => {
+  gameData.forEach(category => {
     const header = document.createElement("div");
     header.className = "category";
     header.textContent = category.category;
@@ -141,46 +136,137 @@ function renderBoard() {
   }
 }
 
+function assignDailyDouble() {
+  const possibleKeys = [];
+  gameData.forEach((category, categoryIndex) => {
+    category.questions.forEach((question, questionIndex) => {
+      possibleKeys.push(`${categoryIndex}-${questionIndex}`);
+    });
+  });
+  dailyDoubleKey = possibleKeys[Math.floor(Math.random() * possibleKeys.length)];
+}
+
+function populateTeamSelect(selectElement, selectedIndex = 0) {
+  selectElement.innerHTML = "";
+  teams.forEach((team, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = team.name;
+    option.selected = index === selectedIndex;
+    selectElement.appendChild(option);
+  });
+}
+
+function getDailyDoubleMax(teamIndex) {
+  // For this single-board game, allow a true Daily Double up to the team's
+  // positive score, with the highest board value as the minimum maximum.
+  const highestClueValue = Math.max(...gameData.flatMap(category => category.questions.map(q => q.value)));
+  return Math.max(highestClueValue, Math.max(0, teams[teamIndex].score));
+}
+
+function updateDailyDoubleLimit() {
+  const teamIndex = Number($("dailyDoubleTeamSelect").value || 0);
+  const maxWager = getDailyDoubleMax(teamIndex);
+  $("dailyDoubleWager").max = String(maxWager);
+  if (Number($("dailyDoubleWager").value) > maxWager) {
+    $("dailyDoubleWager").value = String(maxWager);
+  }
+  $("dailyDoubleLimit").textContent = `Maximum wager: ${formatMoney(maxWager)}`;
+}
+
 function openQuestion(categoryIndex, questionIndex) {
   const key = `${categoryIndex}-${questionIndex}`;
-  activeQuestion = { categoryIndex, questionIndex, key };
+  const isDailyDouble = key === dailyDoubleKey;
+  activeQuestion = { categoryIndex, questionIndex, key, isDailyDouble };
   usedQuestions.add(key);
 
   const category = gameData[categoryIndex];
   const question = category.questions[questionIndex];
 
   $("modalCategory").textContent = category.category;
-  $("modalValue").textContent = formatMoney(question.value);
+  $("modalValue").textContent = isDailyDouble ? "" : formatMoney(question.value);
   $("modalClue").textContent = question.clue;
   $("modalAnswer").textContent = question.answer;
 
   $("modalAnswer").classList.add("hidden");
-  $("showAnswerBtn").classList.remove("hidden");
-  $("scoringButtons").classList.add("hidden");
-  $("clueModal").classList.remove("hidden");
+  $("scoringArea").classList.add("hidden");
+  $("dailyDoubleBanner").classList.toggle("hidden", !isDailyDouble);
+  $("dailyDoubleSetup").classList.toggle("hidden", !isDailyDouble);
 
+  if (isDailyDouble) {
+    $("modalClue").classList.add("hidden");
+    $("showAnswerBtn").classList.add("hidden");
+    populateTeamSelect($("dailyDoubleTeamSelect"));
+    $("dailyDoubleWager").value = String(Math.min(question.value, getDailyDoubleMax(0)));
+    dailyDoubleTeamIndex = null;
+    dailyDoubleWager = 0;
+    updateDailyDoubleLimit();
+  } else {
+    $("modalClue").classList.remove("hidden");
+    $("showAnswerBtn").classList.remove("hidden");
+    populateTeamSelect($("scoringTeamSelect"));
+    $("scoringTeamLabel").classList.remove("hidden");
+  }
+
+  $("clueModal").classList.remove("hidden");
   renderBoard();
+}
+
+function lockDailyDouble() {
+  if (!activeQuestion?.isDailyDouble) return;
+
+  const teamIndex = Number($("dailyDoubleTeamSelect").value);
+  const wager = Number($("dailyDoubleWager").value);
+  const maxWager = getDailyDoubleMax(teamIndex);
+
+  if (!Number.isFinite(wager) || wager < 0 || wager > maxWager) {
+    window.alert(`Enter a wager from $0 to ${formatMoney(maxWager)}.`);
+    return;
+  }
+
+  dailyDoubleTeamIndex = teamIndex;
+  dailyDoubleWager = wager;
+  $("dailyDoubleSetup").classList.add("hidden");
+  $("modalClue").classList.remove("hidden");
+  $("modalValue").textContent = `${teams[teamIndex].name} wagered ${formatMoney(wager)}`;
+  $("showAnswerBtn").classList.remove("hidden");
 }
 
 function showAnswer() {
   if (!activeQuestion) return;
   $("modalAnswer").classList.remove("hidden");
   $("showAnswerBtn").classList.add("hidden");
-  $("scoringButtons").classList.remove("hidden");
+  $("scoringArea").classList.remove("hidden");
+
+  if (activeQuestion.isDailyDouble) {
+    $("scoringTeamLabel").classList.add("hidden");
+  } else {
+    $("scoringTeamLabel").classList.remove("hidden");
+  }
 }
 
 function scoreQuestion(result) {
   if (!activeQuestion) return;
 
   const question = gameData[activeQuestion.categoryIndex].questions[activeQuestion.questionIndex];
+  let teamIndex;
+  let pointValue;
 
-  if (result === "correct") {
-    teams[activeTeam].score += question.value;
-  } else if (result === "incorrect") {
-    teams[activeTeam].score -= question.value;
+  if (activeQuestion.isDailyDouble) {
+    if (dailyDoubleTeamIndex === null) return;
+    teamIndex = dailyDoubleTeamIndex;
+    pointValue = dailyDoubleWager;
+  } else {
+    teamIndex = Number($("scoringTeamSelect").value);
+    pointValue = question.value;
   }
 
-  activeTeam = (activeTeam + 1) % teams.length;
+  if (result === "correct") {
+    teams[teamIndex].score += pointValue;
+  } else if (result === "incorrect") {
+    teams[teamIndex].score -= pointValue;
+  }
+
   renderScoreboard();
   closeQuestion();
 }
@@ -188,6 +274,8 @@ function scoreQuestion(result) {
 function closeQuestion() {
   $("clueModal").classList.add("hidden");
   activeQuestion = null;
+  dailyDoubleTeamIndex = null;
+  dailyDoubleWager = 0;
   renderBoard();
 }
 
@@ -226,44 +314,154 @@ function saveSettings() {
   }
 
   teams = newTeams;
-  if (activeTeam >= teams.length) activeTeam = 0;
   renderScoreboard();
   $("settingsModal").classList.add("hidden");
+}
+
+function resetFinalJeopardy() {
+  finalStarted = false;
+  finalWagers = teams.map(() => 0);
+  finalResolved = teams.map(() => false);
+  $("finalJeopardyPanel").classList.add("hidden");
+  $("finalClue").classList.add("hidden");
+  $("finalAnswer").classList.add("hidden");
+  $("finalScoring").classList.add("hidden");
+  $("showFinalAnswerBtn").classList.add("hidden");
+  $("returnToBoardBtn").classList.add("hidden");
 }
 
 function startNewGame() {
   teams.forEach(team => team.score = 0);
   usedQuestions.clear();
-  activeTeam = 0;
-  finalStarted = false;
-  $("finalJeopardyPanel").classList.add("hidden");
+  activeQuestion = null;
+  assignDailyDouble();
+  resetFinalJeopardy();
   $("board").classList.remove("hidden");
   renderScoreboard();
   renderBoard();
 }
 
+function renderFinalWagers() {
+  const container = $("finalWagers");
+  container.innerHTML = "";
+
+  teams.forEach((team, index) => {
+    const maxWager = Math.max(0, team.score);
+    const row = document.createElement("div");
+    row.className = "final-wager-row";
+    row.innerHTML = `
+      <div>
+        <div class="final-score-team">${escapeHtml(team.name)}: ${formatMoney(team.score)}</div>
+        <div class="final-wager-note">Maximum wager: ${formatMoney(maxWager)}</div>
+      </div>
+      <input id="finalWager${index}" type="number" min="0" max="${maxWager}" step="100" value="0" inputmode="numeric" ${maxWager === 0 ? "disabled" : ""}>
+    `;
+    container.appendChild(row);
+  });
+}
+
 function openFinalJeopardy() {
   finalStarted = true;
+  finalWagers = teams.map(() => 0);
+  finalResolved = teams.map(() => false);
+
   $("board").classList.add("hidden");
   $("finalJeopardyPanel").classList.remove("hidden");
   $("finalCategory").textContent = finalJeopardy.category;
   $("finalClue").textContent = finalJeopardy.clue;
   $("finalAnswer").textContent = finalJeopardy.answer;
+
+  $("finalWagerSection").classList.remove("hidden");
   $("finalClue").classList.add("hidden");
   $("finalAnswer").classList.add("hidden");
-  $("showFinalClueBtn").classList.remove("hidden");
+  $("finalScoring").classList.add("hidden");
   $("showFinalAnswerBtn").classList.add("hidden");
+  $("returnToBoardBtn").classList.add("hidden");
+  renderFinalWagers();
 }
 
-function showFinalClue() {
+function lockFinalWagers() {
+  const wagers = [];
+
+  for (let i = 0; i < teams.length; i++) {
+    const input = $(`finalWager${i}`);
+    const maxWager = Math.max(0, teams[i].score);
+    const wager = input?.disabled ? 0 : Number(input?.value);
+
+    if (!Number.isFinite(wager) || wager < 0 || wager > maxWager) {
+      window.alert(`${teams[i].name}'s wager must be between $0 and ${formatMoney(maxWager)}.`);
+      return;
+    }
+    wagers.push(wager);
+  }
+
+  finalWagers = wagers;
+  $("finalWagerSection").classList.add("hidden");
   $("finalClue").classList.remove("hidden");
-  $("showFinalClueBtn").classList.add("hidden");
   $("showFinalAnswerBtn").classList.remove("hidden");
+}
+
+function renderFinalScoring() {
+  const container = $("finalScoring");
+  container.innerHTML = "";
+
+  teams.forEach((team, index) => {
+    const row = document.createElement("div");
+    row.className = `final-score-row ${finalResolved[index] ? "resolved" : ""}`;
+
+    const resultText = finalResolved[index]
+      ? `<div class="final-result-note">Scored. Current total: ${formatMoney(team.score)}</div>`
+      : `<div class="final-result-note">Wager: ${formatMoney(finalWagers[index])}</div>`;
+
+    row.innerHTML = `
+      <div>
+        <div class="final-score-team">${escapeHtml(team.name)}</div>
+        ${resultText}
+      </div>
+      <div class="final-score-actions">
+        <button class="correct-btn" data-final-team="${index}" data-result="correct" ${finalResolved[index] ? "disabled" : ""}>Correct ✓</button>
+        <button class="incorrect-btn" data-final-team="${index}" data-result="incorrect" ${finalResolved[index] ? "disabled" : ""}>Incorrect ✕</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  container.querySelectorAll("button[data-final-team]").forEach(button => {
+    button.addEventListener("click", () => {
+      scoreFinalTeam(Number(button.dataset.finalTeam), button.dataset.result);
+    });
+  });
 }
 
 function showFinalAnswer() {
   $("finalAnswer").classList.remove("hidden");
   $("showFinalAnswerBtn").classList.add("hidden");
+  $("finalScoring").classList.remove("hidden");
+  renderFinalScoring();
+}
+
+function scoreFinalTeam(teamIndex, result) {
+  if (finalResolved[teamIndex]) return;
+
+  const wager = finalWagers[teamIndex] || 0;
+  if (result === "correct") {
+    teams[teamIndex].score += wager;
+  } else {
+    teams[teamIndex].score -= wager;
+  }
+
+  finalResolved[teamIndex] = true;
+  renderScoreboard();
+  renderFinalScoring();
+
+  if (finalResolved.every(Boolean)) {
+    $("returnToBoardBtn").classList.remove("hidden");
+  }
+}
+
+function returnToBoard() {
+  $("finalJeopardyPanel").classList.add("hidden");
+  $("board").classList.remove("hidden");
 }
 
 function escapeHtml(text) {
@@ -284,6 +482,8 @@ $("correctBtn").addEventListener("click", () => scoreQuestion("correct"));
 $("incorrectBtn").addEventListener("click", () => scoreQuestion("incorrect"));
 $("noScoreBtn").addEventListener("click", closeQuestion);
 $("closeModalBtn").addEventListener("click", closeQuestion);
+$("lockDailyDoubleBtn").addEventListener("click", lockDailyDouble);
+$("dailyDoubleTeamSelect").addEventListener("change", updateDailyDoubleLimit);
 
 $("settingsBtn").addEventListener("click", openSettings);
 $("closeSettingsBtn").addEventListener("click", () => $("settingsModal").classList.add("hidden"));
@@ -297,8 +497,10 @@ $("confirmNewGameBtn").addEventListener("click", () => {
   $("newGameModal").classList.add("hidden");
 });
 
-$("showFinalClueBtn").addEventListener("click", showFinalClue);
+$("finalJeopardyBtn").addEventListener("click", openFinalJeopardy);
+$("lockFinalWagersBtn").addEventListener("click", lockFinalWagers);
 $("showFinalAnswerBtn").addEventListener("click", showFinalAnswer);
+$("returnToBoardBtn").addEventListener("click", returnToBoard);
 
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") {
@@ -308,14 +510,16 @@ document.addEventListener("keydown", event => {
   }
 });
 
-// A simple host-only keyboard shortcut: F = Final Jeopardy.
+// Host shortcut: F = Final Jeopardy.
 document.addEventListener("keydown", event => {
   if (event.key.toLowerCase() === "f" &&
       $("clueModal").classList.contains("hidden") &&
-      $("settingsModal").classList.contains("hidden")) {
+      $("settingsModal").classList.contains("hidden") &&
+      $("newGameModal").classList.contains("hidden")) {
     openFinalJeopardy();
   }
 });
 
+assignDailyDouble();
 renderScoreboard();
 renderBoard();

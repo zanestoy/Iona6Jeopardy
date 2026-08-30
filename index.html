@@ -15,6 +15,7 @@
         <p class="subtitle">Host Edition</p>
       </div>
       <div class="top-actions">
+        <button id="finalJeopardyBtn" class="secondary-btn">Final Jeopardy</button>
         <button id="newGameBtn" class="secondary-btn">New Game</button>
         <button id="settingsBtn" class="secondary-btn">Settings</button>
       </div>
@@ -27,29 +28,58 @@
     <section id="finalJeopardyPanel" class="final-panel hidden">
       <div class="final-header">FINAL JEOPARDY!</div>
       <div id="finalCategory" class="final-category"></div>
+
+      <div id="finalWagerSection" class="final-wager-section">
+        <p class="final-instructions">Enter each team's wager before showing the clue.</p>
+        <div id="finalWagers" class="final-wagers"></div>
+        <button id="lockFinalWagersBtn" class="primary-btn">Lock Wagers & Show Clue</button>
+      </div>
+
       <div id="finalClue" class="final-clue hidden"></div>
       <div class="final-actions">
-        <button id="showFinalClueBtn" class="primary-btn">Show Clue</button>
         <button id="showFinalAnswerBtn" class="primary-btn hidden">Show Answer</button>
+        <button id="returnToBoardBtn" class="secondary-btn hidden">Return to Board</button>
       </div>
       <div id="finalAnswer" class="final-answer hidden"></div>
+      <div id="finalScoring" class="final-scoring hidden"></div>
     </section>
   </main>
 
   <div id="clueModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalCategory">
     <div class="modal-card">
       <button id="closeModalBtn" class="close-btn" aria-label="Close">×</button>
+      <div id="dailyDoubleBanner" class="daily-double-banner hidden">DAILY DOUBLE!</div>
       <div id="modalCategory" class="modal-category"></div>
       <div id="modalValue" class="modal-value"></div>
+
+      <div id="dailyDoubleSetup" class="daily-double-setup hidden">
+        <label>
+          Team
+          <select id="dailyDoubleTeamSelect"></select>
+        </label>
+        <label>
+          Wager
+          <input id="dailyDoubleWager" type="number" min="0" step="100" inputmode="numeric">
+        </label>
+        <div id="dailyDoubleLimit" class="wager-limit"></div>
+        <button id="lockDailyDoubleBtn" class="primary-btn">Lock Wager & Show Clue</button>
+      </div>
+
       <div id="modalClue" class="modal-clue"></div>
       <div id="modalAnswer" class="modal-answer hidden"></div>
 
       <div class="modal-actions">
         <button id="showAnswerBtn" class="primary-btn">Show Answer</button>
-        <div id="scoringButtons" class="scoring-buttons hidden">
-          <button id="correctBtn" class="correct-btn">Correct ✓</button>
-          <button id="incorrectBtn" class="incorrect-btn">Incorrect ✕</button>
-          <button id="noScoreBtn" class="secondary-btn">No Score</button>
+        <div id="scoringArea" class="scoring-area hidden">
+          <label id="scoringTeamLabel" class="scoring-team-label">
+            Award to Team
+            <select id="scoringTeamSelect"></select>
+          </label>
+          <div id="scoringButtons" class="scoring-buttons">
+            <button id="correctBtn" class="correct-btn">Correct ✓</button>
+            <button id="incorrectBtn" class="incorrect-btn">Incorrect ✕</button>
+            <button id="noScoreBtn" class="secondary-btn">No Score</button>
+          </div>
         </div>
       </div>
     </div>
@@ -76,7 +106,7 @@
   <div id="newGameModal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-card">
       <h2>Start a New Game?</h2>
-      <p>This will clear the board and all scores.</p>
+      <p>This will clear the board, scores, wagers, and choose a new Daily Double.</p>
       <div class="modal-actions">
         <button id="confirmNewGameBtn" class="primary-btn">New Game</button>
         <button id="cancelNewGameBtn" class="secondary-btn">Cancel</button>
