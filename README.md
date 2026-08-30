@@ -1,39 +1,73 @@
 # Jeopardy Game
 
-A self-contained Jeopardy-style host game designed to run on GitHub Pages.
+A Jeopardy-style host game designed for GitHub Pages. Game questions are stored separately in `questions.json`, so you can update the content without changing the JavaScript.
 
 ## Files
 
 - `index.html` - game interface
 - `style.css` - appearance and responsive layout
-- `game.js` - game logic and sample questions/answers
+- `game.js` - game logic, scoring, Daily Double, and Final Jeopardy behavior
+- `questions.json` - categories, clue values, clues, answers, and Final Jeopardy content
+
+## Editing the questions
+
+Edit only `questions.json` for normal game-content changes.
+
+The file structure is:
+
+```json
+{
+  "categories": [
+    {
+      "category": "Category Name",
+      "questions": [
+        { "value": 100, "clue": "Clue text", "answer": "Answer text" },
+        { "value": 200, "clue": "Clue text", "answer": "Answer text" },
+        { "value": 300, "clue": "Clue text", "answer": "Answer text" },
+        { "value": 400, "clue": "Clue text", "answer": "Answer text" },
+        { "value": 500, "clue": "Clue text", "answer": "Answer text" }
+      ]
+    }
+  ],
+  "finalJeopardy": {
+    "category": "Final Jeopardy Category",
+    "clue": "Final Jeopardy clue",
+    "answer": "Final Jeopardy answer"
+  }
+}
+```
+
+Each category currently requires exactly five questions. The board can contain any number of categories, although six fits the classic layout best.
+
+The game validates `questions.json` when it loads. If a category has the wrong number of questions or a required field is missing, an error message appears on the board.
 
 ## Running locally
 
-Open `index.html` in a modern web browser.
+Because browsers normally block `fetch()` from reading a JSON file when `index.html` is opened directly with a `file://` address, run the folder through a local web server.
+
+If Python is installed, open a terminal in the game folder and run:
+
+```powershell
+python -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+Press `Ctrl+C` in the terminal to stop the server.
 
 ## Publishing with GitHub Pages
 
-1. Create a GitHub repository.
-2. Upload `index.html`, `style.css`, and `game.js`.
-3. Open **Settings -> Pages** in the repository.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select your main branch and `/ (root)`.
-6. Save.
+1. Upload `index.html`, `style.css`, `game.js`, and `questions.json` to the repository.
+2. Open **Settings -> Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**.
+4. Select the main branch and `/ (root)`.
+5. Save.
 
-## Replacing the sample questions
-
-The current question data is still stored near the top of `game.js`. This keeps the game runnable by simply opening `index.html` locally without a web server.
-
-There are six categories, each with five questions in order:
-
-- $100
-- $200
-- $300
-- $400
-- $500
-
-The same object structure can later be moved into a JSON question file if desired.
+No additional setup is needed for `questions.json` on GitHub Pages.
 
 ## Game controls
 

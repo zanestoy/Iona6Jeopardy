@@ -492,3 +492,19 @@ h1 {
     padding: 50px 20px 25px;
   }
 }
+
+.loading-message,
+.load-error {
+  grid-column: 1 / -1;
+  padding: 2rem;
+  text-align: center;
+}
+
+.load-error {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  font-size: 1.05rem;
+}

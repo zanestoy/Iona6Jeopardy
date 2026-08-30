@@ -1,79 +1,12 @@
 /*
  * JEOPARDY GAME DATA
- * Replace the sample categories/questions below with your own.
  *
- * Each category needs exactly five questions:
- * 100, 200, 300, 400, 500
+ * Questions are loaded from questions.json when the page starts.
+ * Edit that file to replace categories, clues, answers, values, and Final Jeopardy.
  */
 
-const gameData = [
-  {
-    category: "Science",
-    questions: [
-      { value: 100, clue: "This planet is known as the Red Planet.", answer: "What is Mars?" },
-      { value: 200, clue: "This force keeps objects attracted to Earth.", answer: "What is gravity?" },
-      { value: 300, clue: "This gas makes up most of Earth's atmosphere.", answer: "What is nitrogen?" },
-      { value: 400, clue: "This is the process plants use to convert light into chemical energy.", answer: "What is photosynthesis?" },
-      { value: 500, clue: "This subatomic particle has a negative electric charge.", answer: "What is an electron?" }
-    ]
-  },
-  {
-    category: "History",
-    questions: [
-      { value: 100, clue: "This ancient civilization built the pyramids at Giza.", answer: "Who were the ancient Egyptians?" },
-      { value: 200, clue: "This document begins with the words 'We the People.'", answer: "What is the U.S. Constitution?" },
-      { value: 300, clue: "This explorer's 1492 voyage reached the Americas.", answer: "Who was Christopher Columbus?" },
-      { value: 400, clue: "This wall fell in 1989, symbolizing the end of an era in Europe.", answer: "What is the Berlin Wall?" },
-      { value: 500, clue: "This battle in 1066 established Norman rule over England.", answer: "What is the Battle of Hastings?" }
-    ]
-  },
-  {
-    category: "Geography",
-    questions: [
-      { value: 100, clue: "This is the largest continent by land area.", answer: "What is Asia?" },
-      { value: 200, clue: "This river flows through Egypt and is one of the world's longest.", answer: "What is the Nile?" },
-      { value: 300, clue: "This country has the city of Sydney and the Great Barrier Reef.", answer: "What is Australia?" },
-      { value: 400, clue: "This mountain range includes Mount Everest.", answer: "What are the Himalayas?" },
-      { value: 500, clue: "This landlocked country is completely surrounded by South Africa.", answer: "What is Lesotho?" }
-    ]
-  },
-  {
-    category: "Literature",
-    questions: [
-      { value: 100, clue: "This fictional detective lives at 221B Baker Street.", answer: "Who is Sherlock Holmes?" },
-      { value: 200, clue: "This Shakespeare play features the characters Romeo and Juliet.", answer: "What is Romeo and Juliet?" },
-      { value: 300, clue: "George Orwell wrote this novel about a dystopian society ruled by Big Brother.", answer: "What is Nineteen Eighty-Four (1984)?" },
-      { value: 400, clue: "This epic poem is traditionally attributed to Homer and follows Odysseus's long journey home.", answer: "What is The Odyssey?" },
-      { value: 500, clue: "Mary Shelley wrote this novel about a scientist who creates life.", answer: "What is Frankenstein?" }
-    ]
-  },
-  {
-    category: "Movies & TV",
-    questions: [
-      { value: 100, clue: "This animated ogre lives in a swamp.", answer: "Who is Shrek?" },
-      { value: 200, clue: "In Star Wars, this character is Luke Skywalker's father.", answer: "Who is Darth Vader?" },
-      { value: 300, clue: "This television series follows the employees of Dunder Mifflin's Scranton branch.", answer: "What is The Office?" },
-      { value: 400, clue: "This 1997 film features Jack and Rose aboard the RMS Titanic.", answer: "What is Titanic?" },
-      { value: 500, clue: "This director made the films Jaws, E.T., and Jurassic Park.", answer: "Who is Steven Spielberg?" }
-    ]
-  },
-  {
-    category: "Miscellaneous",
-    questions: [
-      { value: 100, clue: "There are this many sides on a standard hexagon.", answer: "What is six?" },
-      { value: 200, clue: "This instrument typically has 88 keys.", answer: "What is a piano?" },
-      { value: 300, clue: "This sport uses terms such as birdie, eagle, and bogey.", answer: "What is golf?" },
-      { value: 400, clue: "This board game includes properties such as Boardwalk and Park Place.", answer: "What is Monopoly?" },
-      { value: 500, clue: "This element has the chemical symbol Au.", answer: "What is gold?" }
-    ]
-  }
-];
-
-const finalJeopardy = {
-  category: "Final Jeopardy",
-  clue: "This is the only U.S. state whose name contains just one syllable.",
-  answer: "What is Maine?"
-};
+let gameData = [];
+let finalJeopardy = null;
 
 let teams = [
   { name: "Team 1", score: 0 },
@@ -520,6 +453,79 @@ document.addEventListener("keydown", event => {
   }
 });
 
-assignDailyDouble();
-renderScoreboard();
-renderBoard();
+async function loadGameData() {
+  const response = await fetch("questions.json", { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Could not load questions.json (HTTP ${response.status}).`);
+  }
+
+  const data = await response.json();
+  validateGameData(data);
+  gameData = data.categories;
+  finalJeopardy = data.finalJeopardy;
+}
+
+function validateGameData(data) {
+  if (!data || !Array.isArray(data.categories) || data.categories.length === 0) {
+    throw new Error("questions.json must contain a non-empty 'categories' array.");
+  }
+
+  const expectedQuestionCount = 5;
+  data.categories.forEach((category, categoryIndex) => {
+    if (!category || typeof category.category !== "string" || !category.category.trim()) {
+      throw new Error(`Category ${categoryIndex + 1} is missing a valid 'category' name.`);
+    }
+    if (!Array.isArray(category.questions) || category.questions.length !== expectedQuestionCount) {
+      throw new Error(`${category.category} must contain exactly ${expectedQuestionCount} questions.`);
+    }
+
+    category.questions.forEach((question, questionIndex) => {
+      const label = `${category.category}, question ${questionIndex + 1}`;
+      if (!Number.isFinite(question?.value) || question.value < 0) {
+        throw new Error(`${label} needs a non-negative numeric 'value'.`);
+      }
+      if (typeof question?.clue !== "string" || !question.clue.trim()) {
+        throw new Error(`${label} is missing a valid 'clue'.`);
+      }
+      if (typeof question?.answer !== "string" || !question.answer.trim()) {
+        throw new Error(`${label} is missing a valid 'answer'.`);
+      }
+    });
+  });
+
+  if (!data.finalJeopardy ||
+      typeof data.finalJeopardy.category !== "string" ||
+      typeof data.finalJeopardy.clue !== "string" ||
+      typeof data.finalJeopardy.answer !== "string" ||
+      !data.finalJeopardy.category.trim() ||
+      !data.finalJeopardy.clue.trim() ||
+      !data.finalJeopardy.answer.trim()) {
+    throw new Error("questions.json must contain a valid 'finalJeopardy' object with category, clue, and answer.");
+  }
+}
+
+function showLoadError(error) {
+  console.error(error);
+  $("board").innerHTML = `
+    <div class="load-error">
+      <strong>Unable to load game questions.</strong>
+      <span>${escapeHtml(error.message)}</span>
+      <span>If you opened index.html directly from your computer, run the game through a local web server or GitHub Pages so the browser can load questions.json.</span>
+    </div>
+  `;
+}
+
+async function initializeGame() {
+  renderScoreboard();
+  $("board").innerHTML = '<div class="loading-message">Loading questions...</div>';
+
+  try {
+    await loadGameData();
+    assignDailyDouble();
+    renderBoard();
+  } catch (error) {
+    showLoadError(error);
+  }
+}
+
+initializeGame();
