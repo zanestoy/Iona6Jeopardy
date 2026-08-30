@@ -1,69 +1,189 @@
 {
   "categories": [
     {
-      "category": "Science",
+      "category": "Family",
       "questions": [
-        { "value": 100, "clue": "This planet is known as the Red Planet.", "answer": "What is Mars?" },
-        { "value": 200, "clue": "This force keeps objects attracted to Earth.", "answer": "What is gravity?" },
-        { "value": 300, "clue": "This gas makes up most of Earth's atmosphere.", "answer": "What is nitrogen?" },
-        { "value": 400, "clue": "This is the process plants use to convert light into chemical energy.", "answer": "What is photosynthesis?" },
-        { "value": 500, "clue": "This subatomic particle has a negative electric charge.", "answer": "What is an electron?" }
+        {
+          "value": 100,
+          "clue": "Proposed to my wife before talking to her father",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 200,
+          "clue": "I married my first girlfriend",
+          "answer": "Bishop Glass & Brother Wells"
+        },
+        {
+          "value": 300,
+          "clue": "Ancestor carved the oxen in the Nauvoo temple",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 400,
+          "clue": "Only one of my sisters is a convert",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 500,
+          "clue": "I married my wife twice!",
+          "answer": "Bishop Glass"
+        }
       ]
     },
     {
-      "category": "History",
+      "category": "Random",
       "questions": [
-        { "value": 100, "clue": "This ancient civilization built the pyramids at Giza.", "answer": "Who were the ancient Egyptians?" },
-        { "value": 200, "clue": "This document begins with the words 'We the People.'", "answer": "What is the U.S. Constitution?" },
-        { "value": 300, "clue": "This explorer's 1492 voyage reached the Americas.", "answer": "Who was Christopher Columbus?" },
-        { "value": 400, "clue": "This wall fell in 1989, symbolizing the end of an era in Europe.", "answer": "What is the Berlin Wall?" },
-        { "value": 500, "clue": "This battle in 1066 established Norman rule over England.", "answer": "What is the Battle of Hastings?" }
+        {
+          "value": 100,
+          "clue": "Was a produce manager over three grocery stores in High School",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 200,
+          "clue": "I have fat eyes",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 300,
+          "clue": "Can fall asleep anywhere, but can’t sleep very long",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 400,
+          "clue": "Born with an extra set of ears",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 500,
+          "clue": "I flew an airplane",
+          "answer": "Bishop Glass & Brother Wells"
+        }
       ]
     },
     {
-      "category": "Geography",
+      "category": "Hobbies",
       "questions": [
-        { "value": 100, "clue": "This is the largest continent by land area.", "answer": "What is Asia?" },
-        { "value": 200, "clue": "This river flows through Egypt and is one of the world's longest.", "answer": "What is the Nile?" },
-        { "value": 300, "clue": "This country has the city of Sydney and the Great Barrier Reef.", "answer": "What is Australia?" },
-        { "value": 400, "clue": "This mountain range includes Mount Everest.", "answer": "What are the Himalayas?" },
-        { "value": 500, "clue": "This landlocked country is completely surrounded by South Africa.", "answer": "What is Lesotho?" }
+        {
+          "value": 100,
+          "clue": "Fixing things",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 200,
+          "clue": "Camping",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 300,
+          "clue": "Random math and engineering problems everywhere and anytime",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 400,
+          "clue": "I'd rather work than watch T.V",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 500,
+          "clue": "Hunting",
+          "answer": "Brother Black"
+        }
       ]
     },
     {
-      "category": "Literature",
+      "category": "Church",
       "questions": [
-        { "value": 100, "clue": "This fictional detective lives at 221B Baker Street.", "answer": "Who is Sherlock Holmes?" },
-        { "value": 200, "clue": "This Shakespeare play features the characters Romeo and Juliet.", "answer": "What is Romeo and Juliet?" },
-        { "value": 300, "clue": "George Orwell wrote this novel about a dystopian society ruled by Big Brother.", "answer": "What is Nineteen Eighty-Four (1984)?" },
-        { "value": 400, "clue": "This epic poem is traditionally attributed to Homer and follows Odysseus's long journey home.", "answer": "What is The Odyssey?" },
-        { "value": 500, "clue": "Mary Shelley wrote this novel about a scientist who creates life.", "answer": "What is Frankenstein?" }
+        {
+          "value": 100,
+          "clue": "Baptized my sister",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 200,
+          "clue": "Served as a bishopric counselor 3 times",
+          "answer": "Brother Wells & Bishop Glass"
+        },
+        {
+          "value": 300,
+          "clue": "Was Deacons quorum president",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 400,
+          "clue": "I held a made up calling",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 500,
+          "clue": "Served a mission in South America",
+          "answer": "Brother Black"
+        }
       ]
     },
     {
-      "category": "Movies & TV",
+      "category": "Oops! I can't believe I did that",
       "questions": [
-        { "value": 100, "clue": "This animated ogre lives in a swamp.", "answer": "Who is Shrek?" },
-        { "value": 200, "clue": "In Star Wars, this character is Luke Skywalker's father.", "answer": "Who is Darth Vader?" },
-        { "value": 300, "clue": "This television series follows the employees of Dunder Mifflin's Scranton branch.", "answer": "What is The Office?" },
-        { "value": 400, "clue": "This 1997 film features Jack and Rose aboard the RMS Titanic.", "answer": "What is Titanic?" },
-        { "value": 500, "clue": "This director made the films Jaws, E.T., and Jurassic Park.", "answer": "Who is Steven Spielberg?" }
+        {
+          "value": 100,
+          "clue": "Never graduated high school",
+          "answer": "Brother Black"
+        },
+        {
+          "value": 200,
+          "clue": "I drove 24 hrs to see my kid run in a compitition that took less than 2 minutes",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 300,
+          "clue": "I caught my friend's back yard on fire",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 400,
+          "clue": "Jump into my cousins van to scare them, but it wasn’t my cousins after all",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 500,
+          "clue": "Shot my thumb with a nail gun",
+          "answer": "Brother Black"
+        }
       ]
     },
     {
-      "category": "Miscellaneous",
+      "category": "Sports",
       "questions": [
-        { "value": 100, "clue": "There are this many sides on a standard hexagon.", "answer": "What is six?" },
-        { "value": 200, "clue": "This instrument typically has 88 keys.", "answer": "What is a piano?" },
-        { "value": 300, "clue": "This sport uses terms such as birdie, eagle, and bogey.", "answer": "What is golf?" },
-        { "value": 400, "clue": "This board game includes properties such as Boardwalk and Park Place.", "answer": "What is Monopoly?" },
-        { "value": 500, "clue": "This element has the chemical symbol Au.", "answer": "What is gold?" }
+        {
+          "value": 100,
+          "clue": "Hit in the face with a fastball",
+          "answer": "Brother Wells"
+        },
+        {
+          "value": 200,
+          "clue": "I broke my arm in a game but continued to play",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 300,
+          "clue": "I scored the game winning goal in a semifinal playoff game",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 400,
+          "clue": "My favorite sport is hockey",
+          "answer": "Bishop Glass"
+        },
+        {
+          "value": 500,
+          "clue": "My ward YM won a church basketball tournament, only because we convinced our non-member friends to play on our team.",
+          "answer": "Brother Black"
+        }
       ]
     }
   ],
   "finalJeopardy": {
-    "category": "Final Jeopardy",
-    "clue": "This is the only U.S. state whose name contains just one syllable.",
-    "answer": "What is Maine?"
+    "category": "Family",
+    "clue": "Have an ancestor mentioned in the doctrine and covenants",
+    "answer": "Brother Wells & Brother Black"
   }
 }
