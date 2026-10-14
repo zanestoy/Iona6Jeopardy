@@ -74,3 +74,15 @@ It also works normally when hosted with GitHub Pages.
 ## Cache-proof update
 
 This build uses `game-v2.js` and `questions-v2.json` so browsers and GitHub Pages cannot accidentally reuse the previous single-round JavaScript from cache. Upload all files from this package together.
+
+## Optional round timers
+
+Game Settings now includes a separate optional timer for Jeopardy and Double Jeopardy.
+
+- Enable either round timer independently.
+- Set each timer from 1 to 120 minutes.
+- Entering a round resets its clock, but the clock does not begin automatically.
+- Press **Start Round Timer** when the host is ready. The same button can pause and resume the timer.
+- At 1:00 remaining, the timer display changes to a warning state.
+- At 0:00, the game automatically advances to the next round (or Final Jeopardy after Double Jeopardy).
+- **Next: Double Jeopardy** and **Next: Final Jeopardy** remain available at all times so the host can end a round early.

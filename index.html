@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#060ce9">
   <title>Jeopardy!</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-v3.css">
 </head>
 <body>
   <main id="app">
@@ -26,7 +26,13 @@
         <div id="roundTitle" class="round-title">JEOPARDY</div>
         <div id="roundSubtitle" class="round-subtitle"></div>
       </div>
-      <button id="advanceRoundBtn" class="primary-btn hidden">Start Double Jeopardy</button>
+      <div class="round-controls">
+        <div id="roundTimerPanel" class="round-timer hidden" aria-label="Round timer">
+          <div id="roundTimerDisplay" class="round-timer-display">00:00</div>
+          <button id="roundTimerBtn" class="secondary-btn">Start Round Timer</button>
+        </div>
+        <button id="advanceRoundBtn" class="primary-btn">Next: Double Jeopardy</button>
+      </div>
     </section>
 
     <section id="scoreboard" class="scoreboard" aria-label="Scores"></section>
@@ -94,6 +100,18 @@
           <option value="double" selected>Double ($200–$1,000)</option>
         </select>
       </label>
+      <div class="timer-settings">
+        <h3>Round Timers</h3>
+        <p class="settings-note">Optional. Each clock waits for the host to press Start Round Timer.</p>
+        <div class="timer-setting-row">
+          <label class="checkbox-label"><input id="round1TimerEnabled" type="checkbox"> Jeopardy timer</label>
+          <label>Minutes<input id="round1TimerMinutes" type="number" min="1" max="120" step="1" value="10"></label>
+        </div>
+        <div class="timer-setting-row">
+          <label class="checkbox-label"><input id="round2TimerEnabled" type="checkbox"> Double Jeopardy timer</label>
+          <label>Minutes<input id="round2TimerMinutes" type="number" min="1" max="120" step="1" value="10"></label>
+        </div>
+      </div>
       <button id="saveSettingsBtn" class="primary-btn full-width">Save Settings</button>
     </div>
   </div>
@@ -109,6 +127,6 @@
     </div>
   </div>
 
-  <script src="game-v2.js"></script>
+  <script src="game-v3.js"></script>
 </body>
 </html>
