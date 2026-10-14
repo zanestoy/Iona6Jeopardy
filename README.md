@@ -1,51 +1,62 @@
-# Jeopardy Game
+# Jeopardy Host Game
 
-A Jeopardy-style host game designed for GitHub Pages. Game questions are stored separately in `questions.json`, so you can update the content without changing the JavaScript.
+This version includes a complete three-stage game:
 
-## Files
+1. **Jeopardy** — 6 categories × 5 clues, with 1 randomly placed Daily Double.
+2. **Double Jeopardy** — 6 new categories × 5 clues, with 2 randomly placed Daily Doubles.
+3. **Final Jeopardy** — each team wagers before the clue is shown, then each team's wager is scored independently.
 
-- `index.html` - game interface
-- `style.css` - appearance and responsive layout
-- `game.js` - game logic, scoring, Daily Double, and Final Jeopardy behavior
-- `questions.json` - categories, clue values, clues, answers, and Final Jeopardy content
+## Round 2 value setting
 
-## Editing the questions
+Open **Settings** and choose either:
 
-Edit only `questions.json` for normal game-content changes.
+- **Same as Jeopardy** — $100, $200, $300, $400, $500
+- **Double** — $200, $400, $600, $800, $1,000
 
-The file structure is:
+The default is **Double**.
+
+## Question file
+
+All clue content is stored in `questions.json`. It now uses this structure:
 
 ```json
 {
-  "categories": [
+  "rounds": [
     {
-      "category": "Category Name",
-      "questions": [
-        { "value": 100, "clue": "Clue text", "answer": "Answer text" },
-        { "value": 200, "clue": "Clue text", "answer": "Answer text" },
-        { "value": 300, "clue": "Clue text", "answer": "Answer text" },
-        { "value": 400, "clue": "Clue text", "answer": "Answer text" },
-        { "value": 500, "clue": "Clue text", "answer": "Answer text" }
-      ]
+      "name": "Jeopardy",
+      "categories": [ ... ]
+    },
+    {
+      "name": "Double Jeopardy",
+      "categories": [ ... ]
     }
   ],
   "finalJeopardy": {
-    "category": "Final Jeopardy Category",
-    "clue": "Final Jeopardy clue",
-    "answer": "Final Jeopardy answer"
+    "category": "Category",
+    "clue": "Clue text",
+    "answer": "What is ...?"
   }
 }
 ```
 
-Each category currently requires exactly five questions. The board can contain any number of categories, although six fits the classic layout best.
+Each round must contain exactly 6 categories, and each category must contain exactly 5 clues.
 
-The game validates `questions.json` when it loads. If a category has the wrong number of questions or a required field is missing, an error message appears on the board.
+The included file contains 60 general-trivia clues plus Final Jeopardy.
+
+## Daily Doubles
+
+Daily Doubles are reassigned randomly each time **New Game** is started:
+
+- Round 1: 1 Daily Double
+- Round 2: 2 Daily Doubles
+
+The maximum wager is the greater of the team's positive score or the highest clue value in the current round.
 
 ## Running locally
 
-Because browsers normally block `fetch()` from reading a JSON file when `index.html` is opened directly with a `file://` address, run the folder through a local web server.
+Because the game loads `questions.json` with `fetch()`, run it through a local web server rather than double-clicking `index.html`.
 
-If Python is installed, open a terminal in the game folder and run:
+From the game folder:
 
 ```powershell
 python -m http.server 8000
@@ -57,27 +68,4 @@ Then open:
 http://localhost:8000
 ```
 
-Press `Ctrl+C` in the terminal to stop the server.
-
-## Publishing with GitHub Pages
-
-1. Upload `index.html`, `style.css`, `game.js`, and `questions.json` to the repository.
-2. Open **Settings -> Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select the main branch and `/ (root)`.
-5. Save.
-
-No additional setup is needed for `questions.json` on GitHub Pages.
-
-## Game controls
-
-- Click a dollar value to open a clue.
-- One clue is randomly assigned as the Daily Double each time a new game starts.
-- For a normal clue, show the answer, select the team being scored, then choose **Correct**, **Incorrect**, or **No Score**.
-- For the Daily Double, select the answering team and wager before the clue appears. The wager is then added or subtracted for that team.
-- Click **Final Jeopardy** or press **F** to begin Final Jeopardy.
-- Enter a wager for each team before revealing the Final Jeopardy clue.
-- After revealing the Final Jeopardy answer, score each team individually as correct or incorrect.
-- **Settings** changes the number and names of teams.
-- **New Game** resets the board, scores, wagers, and selects a new Daily Double.
-- Press **Esc** to close an open dialog.
+It also works normally when hosted with GitHub Pages.
