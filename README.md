@@ -17,7 +17,7 @@ The default is **Double**.
 
 ## Question file
 
-All clue content is stored in `questions.json`. It now uses this structure:
+All clue content is stored in `questions-v2.json`. It now uses this structure:
 
 ```json
 {
@@ -54,7 +54,7 @@ The maximum wager is the greater of the team's positive score or the highest clu
 
 ## Running locally
 
-Because the game loads `questions.json` with `fetch()`, run it through a local web server rather than double-clicking `index.html`.
+Because the game loads `questions-v2.json` with `fetch()`, run it through a local web server rather than double-clicking `index.html`.
 
 From the game folder:
 
@@ -69,3 +69,8 @@ http://localhost:8000
 ```
 
 It also works normally when hosted with GitHub Pages.
+
+
+## Cache-proof update
+
+This build uses `game-v2.js` and `questions-v2.json` so browsers and GitHub Pages cannot accidentally reuse the previous single-round JavaScript from cache. Upload all files from this package together.

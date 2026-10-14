@@ -1,0 +1,139 @@
+{
+  "rounds": [
+    {
+      "name": "Jeopardy",
+      "categories": [
+        {
+          "category": "World Geography",
+          "questions": [
+            {"value":100,"clue":"This river flows through Egypt and empties into the Mediterranean Sea.","answer":"What is the Nile?"},
+            {"value":200,"clue":"This is the largest country in the world by land area.","answer":"What is Russia?"},
+            {"value":300,"clue":"Mount Kilimanjaro is located in this East African country.","answer":"What is Tanzania?"},
+            {"value":400,"clue":"The Strait of Gibraltar separates Spain from this African country.","answer":"What is Morocco?"},
+            {"value":500,"clue":"This landlocked South American country has constitutional capitals in Sucre and La Paz as its seat of government.","answer":"What is Bolivia?"}
+          ]
+        },
+        {
+          "category": "Science",
+          "questions": [
+            {"value":100,"clue":"This planet is known as the Red Planet.","answer":"What is Mars?"},
+            {"value":200,"clue":"Plants use this process to convert light energy into chemical energy.","answer":"What is photosynthesis?"},
+            {"value":300,"clue":"This element has the chemical symbol Au.","answer":"What is gold?"},
+            {"value":400,"clue":"The speed of light in a vacuum is approximately this many kilometers per second.","answer":"What is 300,000 kilometers per second?"},
+            {"value":500,"clue":"This scale ranks minerals from talc at 1 to diamond at 10.","answer":"What is the Mohs scale?"}
+          ]
+        },
+        {
+          "category": "History",
+          "questions": [
+            {"value":100,"clue":"This ancient civilization built the pyramids at Giza.","answer":"Who were the ancient Egyptians?"},
+            {"value":200,"clue":"The Magna Carta was sealed in 1215 during the reign of this English king.","answer":"Who was King John?"},
+            {"value":300,"clue":"This city was buried by the eruption of Mount Vesuvius in A.D. 79.","answer":"What is Pompeii?"},
+            {"value":400,"clue":"The Peace of Westphalia in 1648 ended this major European conflict.","answer":"What was the Thirty Years' War?"},
+            {"value":500,"clue":"This Carthaginian general famously crossed the Alps with elephants during the Second Punic War.","answer":"Who was Hannibal?"}
+          ]
+        },
+        {
+          "category": "Literature",
+          "questions": [
+            {"value":100,"clue":"He wrote Romeo and Juliet.","answer":"Who was William Shakespeare?"},
+            {"value":200,"clue":"In The Hobbit, this character is hired as the burglar for Thorin's company.","answer":"Who is Bilbo Baggins?"},
+            {"value":300,"clue":"This novel begins with the line about all happy families being alike.","answer":"What is Anna Karenina?"},
+            {"value":400,"clue":"Captain Ahab hunts this white whale in Herman Melville's classic novel.","answer":"Who is Moby-Dick?"},
+            {"value":500,"clue":"This Russian author wrote The Brothers Karamazov and Crime and Punishment.","answer":"Who was Fyodor Dostoevsky?"}
+          ]
+        },
+        {
+          "category": "Food & Drink",
+          "questions": [
+            {"value":100,"clue":"Guacamole is traditionally made from this fruit.","answer":"What is an avocado?"},
+            {"value":200,"clue":"Sushi rice is commonly seasoned with this type of vinegar.","answer":"What is rice vinegar?"},
+            {"value":300,"clue":"This French mother sauce is made from milk thickened with a white roux.","answer":"What is béchamel?"},
+            {"value":400,"clue":"The spice saffron comes from this part of the Crocus sativus flower.","answer":"What is the stigma?"},
+            {"value":500,"clue":"This Italian cheese, traditionally made from sheep's milk, is central to classic cacio e pepe.","answer":"What is Pecorino Romano?"}
+          ]
+        },
+        {
+          "category": "Movies & TV",
+          "questions": [
+            {"value":100,"clue":"This green ogre shares his name with the title of a 2001 animated film.","answer":"Who is Shrek?"},
+            {"value":200,"clue":"In Star Wars, this smuggler pilots the Millennium Falcon.","answer":"Who is Han Solo?"},
+            {"value":300,"clue":"This 1993 film featured a theme park populated by cloned dinosaurs.","answer":"What is Jurassic Park?"},
+            {"value":400,"clue":"The fictional paper company Dunder Mifflin is the workplace in this sitcom.","answer":"What is The Office?"},
+            {"value":500,"clue":"This director made Jaws, E.T., and Schindler's List.","answer":"Who is Steven Spielberg?"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Double Jeopardy",
+      "categories": [
+        {
+          "category": "U.S. States",
+          "questions": [
+            {"value":100,"clue":"This state is nicknamed the Aloha State.","answer":"What is Hawaii?"},
+            {"value":200,"clue":"This is the only U.S. state that borders exactly one other state.","answer":"What is Maine?"},
+            {"value":300,"clue":"The geographic center of the contiguous United States lies near Lebanon in this state.","answer":"What is Kansas?"},
+            {"value":400,"clue":"This state contains both the highest and lowest points in the contiguous United States.","answer":"What is California?"},
+            {"value":500,"clue":"This state was admitted to the Union immediately before Hawaii.","answer":"What is Alaska?"}
+          ]
+        },
+        {
+          "category": "Animals",
+          "questions": [
+            {"value":100,"clue":"This is the largest living land animal.","answer":"What is the African elephant?"},
+            {"value":200,"clue":"A group of lions is commonly called this.","answer":"What is a pride?"},
+            {"value":300,"clue":"This mammal is capable of true sustained flight.","answer":"What is a bat?"},
+            {"value":400,"clue":"The axolotl is a type of this amphibian.","answer":"What is a salamander?"},
+            {"value":500,"clue":"This marine mammal has the longest migration of any mammal, traveling between polar feeding grounds and tropical breeding grounds.","answer":"What is the humpback whale?"}
+          ]
+        },
+        {
+          "category": "Inventions",
+          "questions": [
+            {"value":100,"clue":"Alexander Graham Bell is closely associated with the invention of this device.","answer":"What is the telephone?"},
+            {"value":200,"clue":"Johannes Gutenberg's 15th-century innovation greatly improved this method of reproducing books.","answer":"What is movable-type printing?"},
+            {"value":300,"clue":"The Wright brothers' first powered flight took place in this North Carolina location in 1903.","answer":"What is Kitty Hawk?"},
+            {"value":400,"clue":"This Scottish inventor is credited with developing the first practical television system.","answer":"Who was John Logie Baird?"},
+            {"value":500,"clue":"This inventor received a U.S. patent in 1794 for the cotton gin.","answer":"Who was Eli Whitney?"}
+          ]
+        },
+        {
+          "category": "Music",
+          "questions": [
+            {"value":100,"clue":"A standard piano has this many keys.","answer":"What is 88?"},
+            {"value":200,"clue":"This composer wrote the famous Fifth Symphony that begins with a four-note motif often rendered as 'da-da-da-dum.'","answer":"Who was Ludwig van Beethoven?"},
+            {"value":300,"clue":"This instrument family includes the violin, viola, cello, and double bass.","answer":"What are strings?"},
+            {"value":400,"clue":"Freddie Mercury was the lead singer of this British rock band.","answer":"What is Queen?"},
+            {"value":500,"clue":"In music theory, this term describes the distance between two pitches.","answer":"What is an interval?"}
+          ]
+        },
+        {
+          "category": "Space",
+          "questions": [
+            {"value":100,"clue":"This is Earth's natural satellite.","answer":"What is the Moon?"},
+            {"value":200,"clue":"This planet is famous for its prominent ring system.","answer":"What is Saturn?"},
+            {"value":300,"clue":"The first human to walk on the Moon was this astronaut.","answer":"Who was Neil Armstrong?"},
+            {"value":400,"clue":"This is the name of the galaxy that contains our Solar System.","answer":"What is the Milky Way?"},
+            {"value":500,"clue":"This boundary around a black hole marks the point beyond which light cannot escape.","answer":"What is the event horizon?"}
+          ]
+        },
+        {
+          "category": "Words & Language",
+          "questions": [
+            {"value":100,"clue":"A word with the opposite meaning of another word is called this.","answer":"What is an antonym?"},
+            {"value":200,"clue":"This punctuation mark can join two closely related independent clauses without a conjunction.","answer":"What is a semicolon?"},
+            {"value":300,"clue":"The word 'alphabet' comes from the names of the first two letters of this ancient language.","answer":"What is Greek?"},
+            {"value":400,"clue":"A word such as 'buzz' or 'hiss' that imitates a sound is an example of this literary device.","answer":"What is onomatopoeia?"},
+            {"value":500,"clue":"This term describes a word that reads the same forward and backward, such as 'level.'","answer":"What is a palindrome?"}
+          ]
+        }
+      ]
+    }
+  ],
+  "finalJeopardy": {
+    "category": "World Landmarks",
+    "clue": "Completed in 1889 for a world's fair, this iron landmark was originally intended to stand for only 20 years.",
+    "answer": "What is the Eiffel Tower?"
+  }
+}
